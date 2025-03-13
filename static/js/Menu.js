@@ -1,6 +1,8 @@
 // оставьлю пометку а то забуду как чмо
 
-const socket = io();
+const socket = io('https://dinel1337-tictactoe-c2a8.twc1.net', {
+    transports: ['websocket', 'polling'] // Укажите, какие протоколы использовать
+});
 const domen = localStorage.getItem('domen'); 
 const url_spisok = `${domen}api/spisok`;
 const url_offer = `${domen}api/offer`;
