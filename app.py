@@ -6,7 +6,7 @@ import shutil
 terminal_width = shutil.get_terminal_size().columns
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="https://dinel1337-tictactoe-c2a8.twc1.net")
 
 rooms = {
     'game': [
