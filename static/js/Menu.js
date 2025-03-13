@@ -1,7 +1,7 @@
 // оставьлю пометку а то забуду как чмо
 
 const socket = io('https://dinel1337-tictactoe-c2a8.twc1.net', {
-    transports: ['websocket'] // Укажите, какие протоколы использовать
+    transports: ['websocket', 'polling'] // Укажите несколько протоколов
 });
 const domen = localStorage.getItem('domen'); 
 const url_spisok = `${domen}api/spisok`;
