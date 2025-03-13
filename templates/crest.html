@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гладкий крестик</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Центрирование по вертикали */
+            margin: 0;
+            background-color: #f0f0f0; /* Цвет фона */
+        }
+        .cross {
+            position: relative;
+            width: 100px; /* Ширина крестика */
+            height: 100px; /* Высота крестика */
+            transform: rotate(-45deg);
+        }
+        .line {
+            position: absolute;
+            background-color: rgb(48, 36, 36); /* Цвет линий */
+            border-radius: 12px; /* Гладкие края */
+            opacity: 0; /* Начальная прозрачность */
+            transform: scale(0); /* Начальный масштаб */
+            animation: appear 0.5s forwards; /* Анимация появления */
+        }
+        .line.horizontal {
+            width: 100%; /* Ширина горизонтальной линии */
+            height: 12px; /* Высота горизонтальной линии */
+            top: 50%; /* Центрирование по вертикали */
+            left: 50%; /* Центрирование по горизонтали */
+            transform: translate(-50%, -50%) scale(0); /* Центрирование и начальный масштаб */
+            animation-delay: 0.2s; /* Задержка для горизонтальной линии */
+        }
+        .line.vertical {
+            height: 100%; /* Высота вертикальной линии */
+            width: 12px; /* Ширина вертикальной линии */
+            top: 50%; /* Центрирование по вертикали */
+            left: 50%; /* Центрирование по горизонтали */
+            transform: translate(-50%, -50%) scale(0); /* Центрирование и начальный масштаб */
+            animation-delay: 0.4s; /* Задержка для вертикальной линии */
+        }
+
+        @keyframes appear {
+            to {
+                opacity: 1; /* Конечная прозрачность */
+                transform: translate(-50%, -50%) scale(1); /* Возврат в исходное положение и масштаб */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cross">
+        <div class="line horizontal"></div>
+        <div class="line vertical"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Setting.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/RegLog.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Menu.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Offer.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Game.css') }}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="blur-background"></div>
+    <div id="dark"></div>
+    <div class="WLD"><span id="win">Победа</span></div>
+    <div class="WLD"><span id="lose">Поражение</span></div>
+    <div class="WLD"><span id="draw">Ничья</span></div>
+    <div class="waiting">
+      <span>Противник думает</span>
+      <div class="loader">
+        <div class="load"></div>
+        <div class="load"></div>
+        <div class="load"></div>
+        <div class="load"></div>
+      </div>
+    </div>
+    <div id="EndClick" class="waiting"><span>Нажмите для продолжения</span></div>
+    <header class="head">
+      <div
+        class="head-profile"
+        data-username="{{ username }}"
+        data-id="{{ UserId }}"
+      >
+        {% if username %}
+        <span style="cursor: default">{{ username }}</span>
+        {% else %}
+        <span style="cursor: default">???</span>
+        {% endif %}
+      </div>
+    </header>
+    <main class="main">
+      <div class="main-content">
+        <button id="play" class="play-button button">
+          <span class="bta">Играть</span>
+        </button>
+        <button class="play-button button">
+          <span class="bta">Профиль</span>
+        </button>
+        <button id="setting" class="play-button button">
+          <span class="bta">Настройки</span>
+        </button>
+      </div>
+    </main>
+    <section class="setting">
+      <div class="setting-icon">
+        <div class="setting-close">
+          <button id="setting-close" class="setting-close-button">X</button>
+        </div>
+        <div class="setting-name">Настройки</div>
+        <div class="setting-menu">
+          <div class="setting-parametr">
+            <span>Анимации</span>
+            <div class="switch">
+              <input id="animation" type="checkbox" />
+              <label class="toggle" for="toggle">
+                <i></i>
+              </label>
+            </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <section class="login">
+      <form class="form">
+        <span class="abs-reg-span">Login</span>
+        <div class="from-name">
+          <input id="nickname-login" class="ipt" placeholder="Nickname" />
+        </div>
+        <div class="from-name">
+          <input id="password-login" class="ipt" placeholder="Password" />
+        </div>
+        <div class="submit-flex-log">
+          <button id="submit-login"><span>Login</span></button>
+        </div>
+        <div class="sing-up">
+          <span>Нет аккаунта? <b id="reg-btn">Регнуться</b></span>
+        </div>
+      </form>
+    </section>
+    <!-- ---------------------------------------------------- -->
+    <section class="register">
+      <form class="form">
+        <span class="abs-reg-span">register</span>
+        <div class="from-name">
+          <input id="nickname-register" class="ipt" placeholder="Nickname" />
+        </div>
+        <div class="from-name">
+          <input id="password-register" class="ipt" placeholder="Password" />
+        </div>
+        <div class="submit-flex-log">
+          <button id="submit-register"><span>register</span></button>
+        </div>
+        <div class="sing-up">
+          <span>Pohuy? <b id="reg-btn-remove">Залогиниться</b></span>
+        </div>
+      </form>
+    </section>
+
+    <section id="menu" class="menu">
+      <span class="menu-name">Выбрать игру</span>
+      <div id="menu-list"></div>
+    </section>
+
+    <section class="game" style="display: none;">
+      <div class="game-sec">
+        <div data-gameId="1" class="efir"></div>
+        <div data-gameId="2" class="efir"></div>
+        <div data-gameId="3" class="efir"></div>
+        <div data-gameId="4" class="efir"></div>
+        <div data-gameId="5" class="efir"></div>
+        <div data-gameId="6" class="efir"></div>
+        <div data-gameId="7" class="efir"></div>
+        <div data-gameId="8" class="efir"></div>
+        <div data-gameId="9" class="efir"></div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+      integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/Main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/setting.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/RegLog.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Play.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Плавное появление нолика</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Центрирование по вертикали */
+            margin: 0;
+            background-color: #f0f0f0; /* Цвет фона */
+        }
+
+        .circle {
+            width: 100px; /* Ширина круга */
+            height: 100px; /* Высота круга */
+            border: 10px solid black; /* Граница круга */
+            border-radius: 50%; /* Округление для создания круга */
+            opacity: 0; /* Начальная прозрачность */
+            transform: scale(0); /* Начальный размер (точка) */
+            animation: appear 0.3s ease-out forwards; /* Анимация появления */
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0); /* Начинаем с точки */
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1); /* Полный размер круга */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+</body>
+</html>

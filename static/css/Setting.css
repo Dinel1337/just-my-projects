@@ -1,0 +1,284 @@
+@font-face {
+  font-family: "crem";
+  src: url("../fonts/crempie.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.setting {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Центрирование */
+  z-index: 999;
+  display: none;
+}
+
+.animation-setting {
+  animation-name: setting-start;
+  animation-duration: 0.6s;
+  animation-fill-mode: forwards;
+  filter: blur(0) !important;
+}
+
+@keyframes setting-start {
+  0% {
+    top: 70%;
+    filter: blur(3px); /* Начальное размытие */
+    opacity: 0;
+  }
+  100% {
+    top: 50%;
+    filter: blur(0); /* Убираем размытие */
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
+
+.setting-icon {
+  position: relative;
+  display: flex;
+  width: 300px;
+  height: 500px;
+  border: 2px solid rgba(3, 183, 69, 0.882);
+  border-radius: 24px;
+  background-color: rgba(7, 207, 100, 0.882);
+  box-shadow: 1px -1px 2px rgba(73, 75, 63, 0.052),
+    -1px -1px 2px rgba(73, 75, 63, 0.052),
+    -10px 1px 10px -20px rgba(151, 150, 150, 0.599),
+    1px 10px 10px -20px rgba(151, 150, 150, 0.599);
+}
+
+.setting-close {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  height: 50px;
+}
+
+.animation-setting-close {
+  animation-name: setting-end;
+  animation-duration: 0.6s;
+  animation-fill-mode: forwards;
+  filter: blur(0);
+}
+
+@keyframes setting-end {
+  0% {
+    top: 50%;
+    filter: blur(0px); /* Начальное размытие */
+    opacity: 1;
+  }
+  100% {
+    top: 70%;
+    filter: blur(3px); /* Убираем размытие */
+    opacity: 0; /* Конечная прозрачность */
+  }
+}
+
+.setting-close-button {
+  border-radius: 50%;
+  padding-top: 3px;
+  font-family: "crem";
+  color: antiquewhite;
+  height: 30px;
+  width: 30px;
+  margin-right: 12px;
+  background-color: rgba(107, 203, 18, 0.763);
+  border: 3px solid rgba(10, 187, 37, 0.958);
+  box-shadow: 1px -1px 2px rgba(152, 139, 139, 0.345),
+    -1px -1px 2px rgba(152, 139, 139, 0.345),
+    -1px 1px 2px rgba(152, 139, 139, 0.345), 1px 1px 1px rgb(40, 43, 37);
+  transition: transform 0.1s ease, box-shadow 0.1s ease; /* Плавный переход */
+}
+
+.setting-close-button:active {
+  box-shadow: 1px -1px 2px rgba(152, 139, 139, 0.345),
+    -1px -1px 2px rgba(152, 139, 139, 0.345),
+    -1px 1px 2px rgba(152, 139, 139, 0.345), 0px 0px 0px rgb(40, 43, 37);
+  transform: translate(1px, 1px);
+}
+
+.setting-name {
+  position: absolute;
+  font-family: "crem";
+  color: antiquewhite;
+  left: 50%;
+  top: 27px;
+  transform: translate(-50%, -50%);
+  letter-spacing: 1px;
+  font-size: 20px;
+}
+
+.setting-menu{
+  position: absolute;
+  display: flex;
+  row-gap: 30px;
+  font-family: "crem";
+  color: antiquewhite;
+  margin-top: 50px;
+}
+
+.setting-parametr{
+  display: grid;
+  grid-template-columns: 200px 100px;
+  padding: 20px 0px 20px;
+}
+
+.setting-parametr span{
+  display:flex ;
+  align-items: center;
+  margin-left: 15px;
+  font-size: 21px;
+  color: rgb(255, 255, 255);
+  letter-spacing: 3px;
+}
+
+.switch {
+  position: relative;
+  width: 70px;
+  height: 30px;
+  box-sizing: border-box;
+  background: #a8a4a4;
+  border-radius: 6px;
+}
+.switch input[type="checkbox"] {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.switch input[type="checkbox"] + label {
+  position: relative;
+  display: block;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: #62d249;
+  border-radius: 6px;
+  transition: all 0.5s ease-in-out;
+}
+.switch input[type="checkbox"] + label:before {
+  position: absolute;
+  top: 50%;
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 2px;
+  margin-left: 15px;
+  background: #fff;
+  border-radius: 50%;
+  vertical-align: middle;
+  transition: all 0.5s ease-in-out;
+}
+.switch input[type="checkbox"] + label:after {
+  position: absolute;
+  top: 37%;
+  left: 3.5px;
+  content: "";
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  margin-left: 15px;
+  background: #fff;
+  border-radius: 50%;
+  vertical-align: middle;
+  transition: all 0.5s ease-in-out;
+}
+.switch input[type="checkbox"] + label i:before {
+  left: -7px;
+}
+.switch input[type="checkbox"] + label i:after {
+  left: 7px;
+}
+.switch input[type="checkbox"]:checked + label {
+  left: 50%;
+  background-color: black;
+}
+
+.switch input[type="checkbox"]:checked + label::after {
+  width: 2px;
+  height: 9px;
+}
+
+@media (max-width: 768px) or (max-height: 450px){
+  .setting-icon {
+    position: relative;
+    display: flex;
+    width: 180px;
+    height: 300px;
+  }
+  .setting-close {
+    width: 100%;
+    height: 40px;
+  }
+  .setting-close-button {
+    border-radius: 50%;
+    height: 15px;
+    width: 10px;
+    margin-right: 6px;
+    border: 2px solid rgba(10, 187, 37, 0.958);
+    font-size: 6px;
+  }
+  .setting-name {
+    top: 20px;
+    font-size: 10px;
+  }
+
+  .setting-menu{
+    margin-top: 20px;
+  }
+
+  .setting-parametr{
+    display: grid;
+    grid-template-columns: 120px 60px;
+    padding: 20px 0px 20px;
+  }
+
+  .setting-parametr span{
+    margin-left: 5px;
+    font-size: 10px;
+    color: rgb(255, 255, 255);
+    letter-spacing: 2px;
+  }
+
+  .switch {
+    width: 45px;
+    height: 20px;
+  }
+  .switch input[type="checkbox"] + label:before {
+    margin-left: 7px;
+  }
+  .switch input[type="checkbox"] + label:after {
+    position: absolute;
+    top: 32%;
+    left: -4.4px;
+    content: "";
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    margin-left: 15px;
+    background: #fff;
+    border-radius: 50%;
+    vertical-align: middle;
+    transition: all 0.5s ease-in-out;
+  }
+  .switch input[type="checkbox"] + label i:before {
+    left: -7px;
+  }
+  .switch input[type="checkbox"] + label i:after {
+    left: 7px;
+  }
+  .switch input[type="checkbox"]:checked + label {
+    left: 50%;
+    background-color: black;
+  }
+  
+  .switch input[type="checkbox"]:checked + label::after {
+    width: 2px;
+    height: 9px;
+  }
+  
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/Menu.css">
+    <link rel="stylesheet" href="../static/css/Style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="blur-background"></div>
+    <header class="head">
+        <div class="head-profile" data-username="{{ username }}">
+          {% if username %}
+            <span style="cursor: default;">{{ username }}</span>
+          {% else %}
+            <span style="cursor: default;">???</span>
+          {% endif %}
+            <img class="head-img" src="{{ url_for('static', filename='img/ques.webp') }}" alt="sex">
+        </div>
+    </header>
+    <main class="main">
+        <section class="menu">
+            <span class="menu-name">Выбрать игру</span>
+            <div class="menu-sort">
+                <span id="name-player">andrey pidor</span>
+                <button id="menu-button">Play</button>
+            </div>
+            <div class="menu-sort">
+                <span id="name-player">andrey pidor</span>
+                <button id="menu-button">Play</button>
+            </div>
+            <div class="menu-sort">
+                <span id="name-player">andrey pidor</span>
+                <button id="menu-button">Play</button>
+            </div>
+            <div class="menu-sort">
+                <span id="name-player">andrey pidor</span>
+                <button id="menu-button">Play</button>
+            </div>
+            <div class="menu-sort">
+                <span id="name-player">andrey pidor</span>
+                <button id="menu-button">Play</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
