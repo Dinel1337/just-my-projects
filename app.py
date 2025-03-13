@@ -179,4 +179,4 @@ def main():
     return render_template(html, username=username, UserId=UserId)
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=False)
