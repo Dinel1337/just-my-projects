@@ -171,7 +171,7 @@ def logout():
 
 @app.route('/', methods=['GET'])
 def main():
-    html = 'index.html'
+    html = 'Index.html'
     username = check_session()
     UserId = None
     if username:
