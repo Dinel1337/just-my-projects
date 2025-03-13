@@ -1,4 +1,4 @@
-localStorage.setItem('domen', 'http://dinel1337-tictactoe-ec8f.twc1.net/')
+localStorage.setItem('domen', 'https://dinel1337-tictactoe-c2a8.twc1.net/')
 localStorage.removeItem('MyMove');
 localStorage.removeItem('blur');
 // localStorage.removeItem('active');
