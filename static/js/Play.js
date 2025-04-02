@@ -46,7 +46,7 @@ efir.forEach((element) => {
       darkBlur.classList.add("no-my-move");
       loading.style.opacity = '1';
       
-      localStorage.setItem("active", JSON.stringify(storedArray)); // Сохраняем обновленный массив обратно в localStorage
+      localStorage.setItem("active", JSON.stringify(storedArray));
       localStorage.setItem("MyMove", "broad");
       socket.emit("CheckMove", {
         room: this_room,
@@ -160,7 +160,7 @@ function WinLose() {
       combination.every((index) => playerMoves.includes(index))
     );
 
-    // Вернуть найденную комбинацию или null, если не найдена
+    
     return winningCombination || null;
   }
   const winningCombinationMe = checkWin(Me);
@@ -243,10 +243,8 @@ function handleClick() {
   }, 300);
 }
 
-// Добавляем обработчик клика для элементов WLD
 WLD.forEach((e) => {
   e.addEventListener("click", handleClick);
 });
 
-// Добавляем обработчик клика для EndClick
 EndClick.addEventListener("click", handleClick);

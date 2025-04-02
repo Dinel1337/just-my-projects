@@ -1,6 +1,7 @@
 // оставьлю пометку а то забуду как чмо
 
-const socket = io('https://dinel1337-tictactoe-227e.twc1.net', { transports: ['websocket'] });
+// const socket = io('https://dinel1337-tictactoe-227e.twc1.net', { transports: ['websocket'] });
+const socket = io();
 const domen = localStorage.getItem('domen'); 
 const url_spisok = `${domen}api/spisok`;
 const url_offer = `${domen}api/offer`;
@@ -81,7 +82,7 @@ function offer(MyId, EnemyId, move) {
     }),
   })
     .then((response) => response.json())
-    .then((data) => console.log("Успешно что-то сделалось")) // заменить на фунцкию которая будет вызывать функцию play
+    .then((data) => console.log("Успешно что-то сделалось"))
     .catch((error) => console.error("Error:", error));
 }
 
@@ -262,7 +263,7 @@ menuElement.addEventListener("click", function (event) {
   }
 });
 
-// Добавьте обработчик события на родительский элемент
+
 document.body.addEventListener("click", function (event) {
   if (event.target.classList.contains("offer-button") && offerAccept == true) {
     offerAccept = false;

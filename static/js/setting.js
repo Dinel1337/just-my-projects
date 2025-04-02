@@ -92,7 +92,7 @@ Blur.addEventListener("click", function () {
   }
 });
 
-// Исправленный обработчик события для чекбокса
+
 animation.animation.addEventListener("change", function () {
   localStorage.setItem("animation", this.checked); // Сохраняем состояние чекбокса
   CheckboxSetting();

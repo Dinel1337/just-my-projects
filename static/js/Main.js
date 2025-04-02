@@ -1,4 +1,5 @@
-localStorage.setItem('domen', 'https://dinel1337-tictactoe-227e.twc1.net/')
+// localStorage.setItem('domen', 'https://dinel1337-tictactoe-227e.twc1.net/')
+localStorage.setItem('domen', 'http://localhost:5000/')
 localStorage.removeItem('MyMove');
 localStorage.removeItem('blur');
 // localStorage.removeItem('active');
@@ -55,7 +56,7 @@ loginInputButton.addEventListener("click", function (event) {
   event.preventDefault();
   const name = selector.loginInputName.value;
   const pass = selector.loginInputPassword.value;
-//   Логика проверки пароля но мне похуй ведь ее изи сделать
+//   Логика проверки пароля но мне пох ведь ее изи сделать
   login_check(name, pass);
 });
 
@@ -64,7 +65,7 @@ RegisterInputButton.addEventListener("click", function (event) {
   event.preventDefault();
   const name = selector.RegisterInputName.value;
   const pass = selector.RegisterInputPassword.value;
-  //   Логика проверки пароля но мне похуй ведь ее изи сделать
+  //   Логика проверки пароля но мне пох ведь ее изи сделать
   register_check(name, pass);
 });
 
