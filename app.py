@@ -6,13 +6,14 @@ import shutil
 terminal_width = shutil.get_terminal_size().columns
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-socketio = SocketIO(app, cors_allowed_origins="https://dinel1337-tictactoe-227e.twc1.net")
-
+# socketio = SocketIO(app, cors_allowed_origins="https://dinel1337-tictactoe-227e.twc1.net")
+socketio = SocketIO(app)
 rooms = {
     'game': [
         { 'username': 'User', 'message': 'Hi, there! from MAIN room', 'room': 'game'},
     ],
 }
+# не реализовал, стало пофик 
 
 def check_session():
     username = session.get('username')
