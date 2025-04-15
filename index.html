@@ -30,40 +30,28 @@
     <script>
         const tg = window.Telegram.WebApp;
         
-        // Настройка MainButton
+        // Инициализация
+        tg.expand();
         tg.MainButton
             .setText("ПОДЕЛИТЬСЯ НОМЕРОМ")
-            .show();
-        
-        // Обработчик нажатия
-        tg.MainButton.onClick(() => {
-            const user = tg.initDataUnsafe?.user;
-            
-            if (user?.phone_number) {
-                // Если номер есть в профиле
-                tg.sendData(JSON.stringify({
-                    phone: user.phone_number,
-                    via: "telegram_profile"
-                }));
+            .onClick(() => {
+                const user = tg.initDataUnsafe?.user;
+                
+                if (user?.phone_number) {
+                    // Отправляем номер из профиля
+                    tg.sendData(JSON.stringify({
+                        phone: user.phone_number,
+                        via: "telegram_profile"
+                    }));
+                } else {
+                    // Запрашиваем контакт через чат
+                    tg.sendData(JSON.stringify({
+                        action: "request_contact"  // Бот отправит кнопку
+                    }));
+                }
                 tg.close();
-            } else {
-                // Если номера нет - просим нажать кнопку в чате
-                tg.showPopup({
-                    title: "Доступ к номеру",
-                    message: "Нажмите кнопку «Отправить номер» в чате с ботом",
-                    buttons: [{ 
-                        type: "default", 
-                        text: "Понятно", 
-                        id: "ok" 
-                    }]
-                }, (btnId) => {
-                    if (btnId === "ok") tg.close();
-                });
-            }
-        });
-        
-        // Раскрываем на весь экран
-        tg.expand();
+            })
+            .show();
     </script>
 </body>
 </html>
