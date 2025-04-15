@@ -37,21 +37,20 @@
     
     <div class="btn-container">
         <button id="phoneBtn">📱 Поделиться номером</button>
+        <button id="telegramButton">Открыть Telegram</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        
+
         tg.expand();  // Раскрываем на весь экран
-        
+
         document.getElementById('phoneBtn').addEventListener('click', () => {
             if (tg.initDataUnsafe.user?.phone_number) {
-                // Если номер доступен сразу
                 tg.sendData(JSON.stringify({
                     phone: tg.initDataUnsafe.user.phone_number
                 }));
             } else {
-                // Запрашиваем через popup
                 tg.showPopup({
                     title: "Доступ к номеру",
                     message: "Разрешить доступ к вашему номеру телефона?",
@@ -68,6 +67,10 @@
                     }
                 });
             }
+        });
+
+        document.getElementById('telegramButton').addEventListener('click', () => {
+            tg.sendData("Открыть Telegram");
         });
     </script>
 </body>
