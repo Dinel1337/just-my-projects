@@ -3,52 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Запрос номера</title>
+    <title>Phone Request</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        button { 
-            background: #0088cc; 
-            color: white; 
-            border: none; 
-            padding: 12px 20px; 
-            border-radius: 10px; 
-            margin-top: 20px;
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        .btn-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
             width: 100%;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <h2>Подтвердите номер телефона</h2>
-    <p>Нажмите кнопку, чтобы поделиться номером:</p>
+    <h2>Добро пожаловать!</h2>
+    <p>Контент вашего приложения...</p>
     
-    <button id="phoneBtn">📱 Отправить номер</button>
+    <div class="btn-container">
+        <button id="phoneBtn">📱 Поделиться номером</button>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         
+        tg.expand();  // Раскрываем на весь экран
+        
         document.getElementById('phoneBtn').addEventListener('click', () => {
-            // Запрашиваем номер через Telegram
-            tg.sendData(JSON.stringify({
-                action: 'request_phone'
-            }));
-            
-            // Альтернативно можно показать popup
-            tg.showPopup({
-                title: "Доступ к номеру",
-                message: "Разрешить доступ к вашему номеру телефона?",
-                buttons: [{
-                    id: 'confirm',
-                    type: 'default',
-                    text: 'Разрешить'
-                }]
-            }, (btnId) => {
-                if (btnId === 'confirm') {
-                    tg.sendData(JSON.stringify({
-                        phone: tg.initDataUnsafe.user?.phone_number || 'не получен'
-                    }));
-                }
-            });
+            if (tg.initDataUnsafe.user?.phone_number) {
+                // Если номер доступен сразу
+                tg.sendData(JSON.stringify({
+                    phone: tg.initDataUnsafe.user.phone_number
+                }));
+            } else {
+                // Запрашиваем через popup
+                tg.showPopup({
+                    title: "Доступ к номеру",
+                    message: "Разрешить доступ к вашему номеру телефона?",
+                    buttons: [{
+                        type: 'default',
+                        text: 'Разрешить',
+                        id: 'allow'
+                    }]
+                }, (btnId) => {
+                    if (btnId === 'allow') {
+                        tg.sendData(JSON.stringify({
+                            phone: tg.initDataUnsafe.user?.phone_number || 'не_получен'
+                        }));
+                    }
+                });
+            }
         });
     </script>
 </body>
