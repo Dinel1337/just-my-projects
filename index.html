@@ -3,31 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini App с кнопкой</title>
+    <title>Запрос номера</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 16px;
-            font-family: sans-serif;
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { 
+            background: #0088cc; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            margin-top: 20px;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <h1>Это Mini App</h1>
-    <p>Контент вашего приложения...</p>
+    <h2>Подтвердите номер телефона</h2>
+    <p>Нажмите кнопку, чтобы поделиться номером:</p>
+    
+    <button id="phoneBtn">📱 Отправить номер</button>
 
     <script>
-        // Инициализация Telegram Web App
         const tg = window.Telegram.WebApp;
-
-        // Показываем основную кнопку внизу
-        tg.MainButton.setText("Моя кнопка");
-        tg.MainButton.show();
-
-        // Обработчик нажатия на кнопку
-        tg.MainButton.onClick(() => {
-            tg.sendData("Данные при нажатии кнопки");
+        
+        document.getElementById('phoneBtn').addEventListener('click', () => {
+            // Запрашиваем номер через Telegram
+            tg.sendData(JSON.stringify({
+                action: 'request_phone'
+            }));
+            
+            // Альтернативно можно показать popup
+            tg.showPopup({
+                title: "Доступ к номеру",
+                message: "Разрешить доступ к вашему номеру телефона?",
+                buttons: [{
+                    id: 'confirm',
+                    type: 'default',
+                    text: 'Разрешить'
+                }]
+            }, (btnId) => {
+                if (btnId === 'confirm') {
+                    tg.sendData(JSON.stringify({
+                        phone: tg.initDataUnsafe.user?.phone_number || 'не получен'
+                    }));
+                }
+            });
         });
     </script>
 </body>
