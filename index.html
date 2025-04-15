@@ -19,15 +19,20 @@
 
     <script>
         // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
+       const tg = window.Telegram.WebApp;
 
-        // Показываем основную кнопку внизу
-        tg.MainButton.setText("Моя кнопка");
+        tg.MainButton.setText("Поделиться номером");
         tg.MainButton.show();
-
-        // Обработчик нажатия на кнопку
+        
         tg.MainButton.onClick(() => {
-            tg.sendData("Данные при нажатии кнопки");
+            // Запрашиваем номер телефона
+            tg.requestContact((phone) => {
+            // Отправляем номер на сервер бота
+                tg.sendData(JSON.stringify({
+                    action: 'request_phone',
+                    phone: phone
+                }));
+            });
         });
     </script>
 </body>
