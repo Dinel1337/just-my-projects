@@ -3,51 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Request via MainButton</title>
+    <title>Запрос номера телефона</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 16px;
             margin: 0;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: var(--tg-theme-link-color, #2481cc);
         }
     </style>
 </head>
 <body>
-    <h2>Добро пожаловать!</h2>
-    <p>Контент вашего приложения...</p>
+    <div class="container">
+        <h1>Подтвердите номер телефона</h1>
+        <p>Для продолжения нам нужен ваш номер телефона</p>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         
-        tg.expand();  // Раскрываем на весь экран
-        
-        // Настраиваем основную кнопку
-        tg.MainButton.setText("📱 Поделиться номером");
+        // Инициализация
+        tg.expand(); // Раскрываем на весь экран
+        tg.MainButton.setText("Подтвердить номер");
         tg.MainButton.show();
         
-        // Обработчик клика по MainButton
+        // Обработчик нажатия MainButton
         tg.MainButton.onClick(() => {
-            if (tg.initDataUnsafe.user?.phone_number) {
-                // Если номер уже есть (пользователь ранее разрешил доступ)
+            // Проверяем, есть ли номер в данных пользователя
+            const user = tg.initDataUnsafe.user;
+            
+            if (user?.phone_number) {
+                // Если номер уже есть - отправляем его
                 tg.sendData(JSON.stringify({
-                    phone: tg.initDataUnsafe.user.phone_number
+                    action: "phone_shared",
+                    phone: user.phone_number
                 }));
             } else {
-                // Показываем всплывающее окно с объяснением
+                // Если номера нет - просим пользователя нажать кнопку в чате
                 tg.showPopup({
-                    title: "Доступ к номеру",
-                    message: "Разрешите доступ к номеру телефона в настройках бота.",
+                    title: "Требуется номер телефона",
+                    message: "Пожалуйста, нажмите кнопку 'Отправить номер' в чате с ботом",
                     buttons: [{
-                        type: 'default',
-                        text: 'Понятно',
-                        id: 'ok'
+                        type: "default",
+                        text: "Понятно",
+                        id: "ok"
                     }]
+                }, (btnId) => {
+                    // Закрываем WebApp после нажатия "Понятно"
+                    if (btnId === "ok") {
+                        tg.close();
+                    }
                 });
-                
-                // Можно закрыть WebApp, чтобы пользователь заново авторизовался
-                // tg.close();  // Раскомментируйте, если нужно
             }
+        });
+        
+        // Можно добавить обработчик события закрытия WebApp
+        tg.onEvent('viewportChanged', () => {
+            console.log("Viewport changed");
         });
     </script>
 </body>
