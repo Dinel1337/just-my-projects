@@ -3,36 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini App с кнопкой</title>
+    <title>Phone Request via MainButton</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
             margin: 0;
-            padding: 16px;
-            font-family: sans-serif;
         }
     </style>
 </head>
 <body>
-    <h1>Это Mini App</h1>
+    <h2>Добро пожаловать!</h2>
     <p>Контент вашего приложения...</p>
 
     <script>
-        // Инициализация Telegram Web App
-       const tg = window.Telegram.WebApp;
-
-        tg.MainButton.setText("Поделиться номером");
+        const tg = window.Telegram.WebApp;
+        
+        tg.expand();  // Раскрываем на весь экран
+        
+        // Настраиваем основную кнопку
+        tg.MainButton.setText("📱 Поделиться номером");
         tg.MainButton.show();
         
+        // Обработчик клика по MainButton
         tg.MainButton.onClick(() => {
-            // Запрашиваем номер телефона
-            tg.requestContact((phone) => {
-            // Отправляем номер на сервер бота
+            if (tg.initDataUnsafe.user?.phone_number) {
+                // Если номер уже есть (пользователь ранее разрешил доступ)
                 tg.sendData(JSON.stringify({
-                    action: 'request_phone',
-                    phone: phone
+                    phone: tg.initDataUnsafe.user.phone_number
                 }));
-            });
+            } else {
+                // Показываем всплывающее окно с объяснением
+                tg.showPopup({
+                    title: "Доступ к номеру",
+                    message: "Разрешите доступ к номеру телефона в настройках бота.",
+                    buttons: [{
+                        type: 'default',
+                        text: 'Понятно',
+                        id: 'ok'
+                    }]
+                });
+                
+                // Можно закрыть WebApp, чтобы пользователь заново авторизовался
+                // tg.close();  // Раскомментируйте, если нужно
+            }
         });
     </script>
 </body>
