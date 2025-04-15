@@ -17,15 +17,10 @@
             color: var(--tg-theme-link-color, #2481cc);
             margin-top: 40px;
         }
-        p {
-            margin: 15px 0 30px;
-            opacity: 0.8;
-        }
     </style>
 </head>
 <body>
-    <h1>Требуется ваш телефон</h1>
-    <p>Для продолжения нажмите кнопку ниже</p>
+    <h1>Нажмите кнопку внизу экрана</h1>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -38,18 +33,18 @@
                 const user = tg.initDataUnsafe?.user;
                 
                 if (user?.phone_number) {
-                    // Отправляем номер из профиля
+                    // Если номер есть в профиле
                     tg.sendData(JSON.stringify({
                         phone: user.phone_number,
                         via: "telegram_profile"
                     }));
                 } else {
-                    // Запрашиваем контакт через чат
+                    // Если номера нет - отправляем запрос
                     tg.sendData(JSON.stringify({
-                        action: "request_contact"  // Бот отправит кнопку
+                        action: "request_contact"
                     }));
                 }
-                tg.close();
+                // Не закрываем Mini App сразу!
             })
             .show();
     </script>
