@@ -2,85 +2,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' telegram:; connect-src 'self' telegram:;">
-    <title>Phone Request</title>
+    <title>Test</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            text-align: center;
-            background: #f0f2f5;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 15px 0;
-        }
-        .manual-input {
-            margin-top: 20px;
-        }
-        input {
-            padding: 10px;
-            margin: 10px 0;
-            width: 80%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Поделиться номером</h2>
-        
-        <!-- Кнопка для автоматического получения номера -->
-        <button onclick="sendPhone()">📱 Отправить мой номер</button>
-        
-        <!-- Ручной ввод -->
-        <div class="manual-input">
-            <input type="tel" id="manual-phone" placeholder="+7 999 123-45-67">
-            <button onclick="sendManualPhone()">Отправить вручную</button>
-        </div>
-    </div>
+    <button onclick="sendTestData()">Отправить тестовые данные</button>
 
     <script>
-        // Инициализация WebApp
-        const webApp = Telegram.WebApp;
-
-        // Попытка автоматически получить номер
-        function sendPhone() {
-            const phone = webApp.initDataUnsafe.user?.phone_number;
-            
-            if (phone) {
-                webApp.sendData(JSON.stringify({ phone: phone }));
-                webApp.close();
-            } else {
-                alert("Номер не найден. Введите вручную.");
-            }
-        }
-
-        // Отправка ручного ввода
-        function sendManualPhone() {
-            const phone = document.getElementById('manual-phone').value;
-            if (/^\+?[0-9\s\-]{10,}$/.test(phone)) {
-                webApp.sendData(JSON.stringify({ phone: phone }));
-                webApp.close();
-            } else {
-                alert("Введите корректный номер!");
-            }
+        function sendTestData() {
+            const data = { phone: "+79991234567" };
+            Telegram.WebApp.sendData(JSON.stringify(data));
+            Telegram.WebApp.close();
         }
     </script>
 </body>
