@@ -3,110 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Telegram Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            color: var(--tg-theme-text-color);
-            background: var(--tg-theme-bg-color);
-        }
-
-        .Main {
-            width: 100%;
-            padding: 25px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
             text-align: center;
-
         }
-
-        h1 {
-            margin-top: 40px;
-            margin-bottom: 10px;
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
         }
-
-        img {
-            width: 70px;
-            margin: 30px auto;
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 5px;
-            margin-top: 50px;
-            height: 60px;
-            width: 200px;
-            font-style: 20px;
-            font-weight: 500;
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            margin: 10px 0;
             cursor: pointer;
-            color: var(--tg-theme-button-text-color);
-            background: var(--tg-theme-button-color);
+            width: 100%;
+            transition: all 0.2s;
         }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        button:active {
+            transform: scale(0.98);
         }
-        
-        input {
-            outline: none;
-            border-radius: 5px;
-            border: 2px solid #535353;
-            padding: 15px 10px;
-            margin: 10px 0 0;
-            background: var(--tg-theme-section-separator-color);
-            color: var(--tg-theme-text-color);
-            transition: all .2s;
+        .hidden {
+            display: none;
         }
-        
-        input:focus {
-            border-color: var(--tg-theme-secondary-bg-color)
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 10px;
         }
-        
     </style>
 </head>
 <body>
-    <div class="Main">
-        <h1>Тестовое приложение</h1>
-        <img src="{{ url_for('static', filename='bot.png') }}" alt="">
-        <p></p>
-        <button class="btn f-btn">Тест отправки данных</button>
-        <form class="test-form">    
-            <input type="text" placeholder="Введите заголовок" class="title-inp">
-            <input type="text" placeholder="Введите описание" class="desc-inp">
-            <input type="text" placeholder="Введите текст" class="text-inp">
-            <button class="btn s-btn">Отправить</button>
-        </form>
-    
+    <div class="container">
+        <h1>🔐 Верификация</h1>
+        <p>Для продолжения поделитесь номером телефона</p>
+        
+        <button id="requestPhoneBtn">📞 Поделиться номером</button>
+        
+        <div id="result" class="hidden"></div>
     </div>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
     <script>
-        let tg = window.Telegram.WebApp;
-
-        let fBtn = document.getElementsByClassName("f-btn")[0]
-        let sBtn = document.getElementsByClassName("s-btn")[0]
-        console.log(tg.initDataUnsafe.user.username)
-        console.log(tg.initDataUnsafe.user.username)
-        console.log(tg.initDataUnsafe.user.username)
-        console.log(tg.initDataUnsafe.user.username)
-        console.log(tg.initDataUnsafe.user.username)
-        console.log('-------------------------------------')
-        fBtn.addEventListener("click", () => {
-            document.getElementsByClassName("Main")[0].style.display = "none";
-            document.getElementsByClassName("test-form")[0].style.display = "block";
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.hide();
+        
+        const requestPhoneBtn = document.getElementById('requestPhoneBtn');
+        const resultDiv = document.getElementById('result');
+        
+        requestPhoneBtn.addEventListener('click', async () => {
+            try {
+                // Запрашиваем номер телефона
+                const phone = await requestUserPhone();
+                
+                // Показываем результат
+                resultDiv.innerHTML = `✅ Номер получен: <strong>${phone}</strong>`;
+                resultDiv.classList.remove('hidden');
+                
+                // Отправляем данные в бота
+                tg.sendData(JSON.stringify({
+                    action: "phone_shared",
+                    phone_number: phone
+                }));
+                
+                // Закрываем Web App через 2 секунды
+                setTimeout(() => tg.close(), 2000);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+                resultDiv.classList.remove('hidden');
+            }
         });
-
-        sBtn.addEventListener("click", () => {
-            tg.close();
-        });
+        
+        function requestUserPhone() {
+            return new Promise((resolve, reject) => {
+                // Проверяем, есть ли уже номер в данных Telegram
+                if (tg.initDataUnsafe?.user?.phone_number) {
+                    resolve(tg.initDataUnsafe.user.phone_number);
+                    return;
+                }
+                
+                // Запрашиваем контакт, если номера нет
+                tg.requestContact((contactRequested) => {
+                    if (contactRequested) {
+                        tg.onEvent('contactRequested', (result) => {
+                            if (result.status === 'sent') {
+                                const phone = result.responseUnsafe?.contact?.phone_number;
+                                if (phone) {
+                                    tg.offEvent('contactRequested', this);
+                                    resolve(phone);
+                                } else {
+                                    reject(new Error('Номер не получен'));
+                                }
+                            }
+                        });
+                        
+                        // Таймаут на случай, если пользователь не ответит
+                        setTimeout(() => {
+                            tg.offEvent('contactRequested', this);
+                            reject(new Error('Время ожидания истекло'));
+                        }, 15000);
+                    } else {
+                        reject(new Error('Доступ к номеру отклонен'));
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
