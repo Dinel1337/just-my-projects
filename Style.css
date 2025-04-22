@@ -1,0 +1,593 @@
+* {
+    font-family: Inter, sans-serif;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+html {
+    -ms-user-select: none; 
+    -moz-user-select: none; 
+    -webkit-user-select: none; 
+    user-select: none; 
+}
+html, body {
+    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+}
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Плавное затухание и перемещение */
+}
+.hidden {
+    opacity: 0;
+    pointer-events: none; /* Отключаем взаимодействие с скрытой страницей */
+    transform: scale(0.9); /* Уменьшаем размер для эффекта затухания */
+}
+.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10; /* Убеждаемся, что активная страница поверх */
+}
+.light-theme {
+    background-color: #ffffff; /* Светлый фон */
+    color: #1c1c1c; /* Чёрный текст для контраста */
+}
+.dark-theme {
+    background-color: #1c1c1c; /* Тёмный фон */
+    color: #ffffff; /* Белый текст для контраста */
+}
+h1 {
+    font-size: 24px; /* Размер текста "Нет доступа" */
+    margin: 10px;
+    font-weight: 600;
+    margin-top: 25px;
+    text-align: center;
+}
+p {
+    font-size: 15px; /* Размер текста подписи */
+    margin-top: 10px;
+    margin-top: 0;
+}
+.welcome_inner {
+    padding: 0 20px;
+}
+
+.info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 20px;
+    width: -webkit-fill-available;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Начинаем сверху */
+    z-index: 1000; /* Убеждаемся, что выше всех элементов */
+    opacity: 0; /* Начальная прозрачность */
+    transform: translateY(-100vh); /* Скрываем выше верхней границы экрана */
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out; /* Плавное появление и движение */
+    pointer-events: none; /* Отключаем взаимодействие, пока окно скрыто */
+}
+
+.info-modal.visible {
+    opacity: 1; /* Показываем с полной непрозрачностью */
+    transform: translateY(20px); /* Плавно опускаем вниз на 20px от верхнего края */
+}
+
+.info-modal-content {
+    color: #000000; /* Чёрный текст */
+    padding: 13px 20px;
+    border-radius: 10px; /* Закруглённые углы */
+    text-align: center;
+    font-size: 16px;
+}
+
+.light-theme .info-modal-content { 
+    background-color: #f0f0f0;
+    color: #000000;
+}
+.dark-theme .info-modal-content { 
+    background-color: #474747;
+    color:#ffffff;
+}
+
+ul._list_1ni5n_1._hideDivider_1ni5n_61 {
+    line-height: 1.15;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: inherit;
+}
+
+li._item_1ni5n_9._itemWrapper_axpdt_50 {
+    line-height: 1.15;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    align-items: stretch;
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+span._itemIcon_1ni5n_48 {
+    line-height: 1.15;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    align-items: flex-start;
+    display: flex;
+    flex-shrink: 0;
+    padding: 12px 0;
+}
+
+._itemContent_1ni5n_44._item_axpdt_23._withText_axpdt_53 {
+    line-height: 1.15;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    flex-grow: 1;
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: flex-start;
+}
+
+._list_1ni5n_1._hideDivider_1ni5n_61>._item_1ni5n_9+._item_1ni5n_9 ._itemContent_1ni5n_44 {
+    line-height: 1.15;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    flex-grow: 1;
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-top: none;
+}
+
+span._text_73kpq_1._variant-headline_73kpq_17._color-primary_73kpq_56 {
+    box-sizing: border-box;
+    outline: none;
+    font-style: normal;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -.1px;
+    line-height: 22px;
+}
+
+span._text_73kpq_1._variant-caption_73kpq_35._color-secondary_73kpq_59 {
+    box-sizing: border-box;
+    outline: none;
+    font-style: normal;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    color: var(--tg-accent-color);
+}
+
+._item_axpdt_233:after {
+    background-color: #999;
+    content: "";
+    left: -32px;
+    opacity: .2;
+    position: absolute;
+    transform: translate(-50%);
+    width: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    top: 54px;
+    height: 20px;
+}
+
+svg._star_sargg_11 {
+    stroke: none;
+    height: 1em;
+    width: 1em;
+    box-sizing: border-box;
+    outline: none;
+    color: #51b4e5;
+    font-size: 14px;
+    opacity: 0;
+    position: absolute;
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: .5s;
+    left: calc(50% - 54px);
+    top: calc(50% + 39px);
+    pointer-events: none;
+}
+
+._animation_sargg_1._animation_axpdt_15 {
+    position: relative;
+}
+
+._star_sargg_11:nth-child(2) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: .5s;
+    left: calc(50% - 54px);
+    top: calc(50% + 39px)
+}
+
+._star_sargg_11:nth-child(3) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: 2.5s;
+    left: calc(50% - 97px);
+    top: calc(50% + 1px)
+}
+
+._star_sargg_11:nth-child(4) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: 1.5s;
+    left: calc(50% - 77px);
+    top: calc(50% - 19px)
+}
+
+._star_sargg_11:nth-child(5) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    left: calc(50% - 62px);
+    top: calc(50% - 46px)
+}
+
+._star_sargg_11:nth-child(14) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: 1.5s;
+    left: calc(50% - 74px);
+    top: calc(50% + 19px)
+}
+
+._star_sargg_11:nth-child(15) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: 1.25s;
+    left: calc(50% - 147px);
+    top: calc(50% + 31px)
+}
+
+._star_sargg_11:nth-child(16) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    left: calc(50% - 107px);
+    top: calc(50% + 11px)
+}
+
+._star_sargg_11:nth-child(17) {
+    animation: _star-animation-left_sargg_1 1s linear infinite;
+    animation-delay: .5s;
+    left: calc(50% - 122px);
+    top: calc(50% - 36px)
+}
+
+._star_sargg_11:nth-child(6) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    animation-delay: 1s;
+    left: calc(50% + 20px);
+    top: calc(50% - 63px)
+}
+
+._star_sargg_11:nth-child(7) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    animation-delay: 1.5s;
+    left: calc(50% + 52px);
+    top: calc(50% - 35px)
+}
+
+._star_sargg_11:nth-child(8) {
+    left: calc(50% + 82px);
+    top: calc(50% + 3px)
+}
+
+._star_sargg_11:nth-child(8),._star_sargg_11:nth-child(9) {
+    animation: _star-animation-right_sargg_1 1s linear infinite
+}
+
+._star_sargg_11:nth-child(9) {
+    animation-delay: 1.75s;
+    left: calc(50% + 46px);
+    top: calc(50% + 27px)
+}
+
+._star_sargg_11:nth-child(10) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    animation-delay: .5s;
+    left: calc(50% + 70px);
+    top: calc(50% - 48px)
+}
+
+._star_sargg_11:nth-child(11) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    animation-delay: 1.25s;
+    left: calc(50% + 66px);
+    top: calc(50% - 15px)
+}
+
+._star_sargg_11:nth-child(12) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    left: calc(50% + 122px);
+    top: calc(50% + 23px)
+}
+
+._star_sargg_11:nth-child(13) {
+    animation: _star-animation-right_sargg_1 1s linear infinite;
+    animation-delay: 2.25s;
+    left: calc(50% + 56px);
+    top: calc(50% + 37px)
+}
+
+@keyframes _star-animation-left_sargg_1 {
+    0% {
+        opacity: 0;
+        transform: scale(.5)
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-125%,-50%) scale(1)
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-250%,-100%) scale(.5)
+    }
+}
+
+@keyframes _star-animation-right_sargg_1 {
+    0% {
+        opacity: 0;
+        transform: scale(.5)
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(125%,-50%) scale(1)
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(250%,-100%) scale(.5)
+    }
+}
+
+#page2 {
+    overflow: hidden;
+}
+#page4 {
+    margin-top: 180px;
+}
+#page5 {
+    margin-top: 300px;
+}
+.code-input-container {
+    margin: 20px 0 40px;
+    display: flex;
+    gap: 10px;
+}
+.code-cell {
+    pointer-events: none;
+    width: 46px;
+    height: 53px;
+    font-size: 23px;
+    text-align: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 17px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); } /* Сдвиг влево */
+    50% { transform: translateX(10px); }  /* Сдвиг вправо */
+    75% { transform: translateX(-10px); } /* Сдвиг влево */
+    100% { transform: translateX(0); }    /* Возвращение в исходное положение */
+}
+
+/* Применяем анимацию к .code-cell при добавлении класса .shake */
+.shake {
+    animation: shake 0.3s ease-in-out; /* Длительность и тип анимации */
+}
+
+/* Определяем анимацию для поднимания цифры снизу вверх */
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100%); /* Начинаем снизу клетки */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Останавливаемся в центре */
+    }
+}
+
+/* Применяем анимацию к цифрам, когда они появляются */
+.code-cell span {
+    display: block; /* Убеждаемся, что текст обернут в span для анимации */
+    animation: slideUp 0.5s ease-out; /* Длительность и тип анимации */
+}
+
+/* Сбрасываем анимацию, если содержимое не меняется */
+.code-cell:not(:hover) span {
+    animation: none; /* Убираем анимацию при наведении или повторном отображении */
+}
+
+/* Опционально: добавляем задержку для последовательности, если нужно */
+.code-cell:nth-child(1) span { animation-delay: 0s; }
+.code-cell:nth-child(2) span { animation-delay: 0; }
+.code-cell:nth-child(3) span { animation-delay: 0; }
+.code-cell:nth-child(4) span { animation-delay: 0; }
+.code-cell:nth-child(5) span { animation-delay: 0; }
+
+.code-cell.focused {
+    border: 2px solid var(--tg-accent-color);
+}
+.code-display {
+    font-size: 18px;
+    margin-top: 20px;
+}
+.resend_button {
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 15px;
+    margin-top: 5px;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.resend_active {
+    color: var(--tg-accent-color);
+    pointer-events: all;
+}
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 300px;
+    width: 100%;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.keyboard button {
+    font-weight: 900;
+    border: none;
+    padding: 15px;
+    font-size: 24px;
+    background-color: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+.light-theme .keyboard button {
+    border-color: #182533;
+    color: #182533;
+    border: none;
+}
+.erase-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.erase-button svg {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+}
+.light-theme .erase-button svg {
+    fill: #182533;
+}
+.dark-theme .code-cell {
+    border-color: #313131;
+    color: #ffffff;
+}
+.dark-theme .code-cell.focused {
+    border: 2px solid var(--tg-accent-color);
+}
+
+.loader {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--tg-accent-color);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+.loader_text {
+    text-align: center;
+    font-size: 11px;
+    width: 220px;
+    font-weight: 100;
+    color: #999;
+    margin-top: 20px;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.password_input {
+    margin-top: 25px;
+    border-radius: 12px;
+    height: 40px;
+    width: 285px;
+    padding-left: 13px;
+    border: none;
+    font-size: 15px;
+    background: transparent;
+}
+
+.dark-theme .password_input {
+    outline: 1px solid #515151;
+    color: #ffffff;
+}
+.light-theme .password_input {
+    outline: 1px solid #dddddd;
+}
+
+.password_input:focus {
+    outline: 1px solid var(--tg-accent-color);
+}
+
+.input-container {
+    position: relative;
+    width: 300px;
+}
+
+.password_label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    font-size: 14px;
+    color: #999;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.43, 0.89);
+    pointer-events: none;
+    margin-top: 3px;
+}
+
+.password_input:focus + .password_label, .password_input:not(:placeholder-shown) + .password_label {
+    top: 12px;
+    left: 10px;
+    font-size: 12px;
+    padding: 0 5px;
+}
+
+.dark-theme .password_label {
+    background: #1c1c1c;
+}
+.light-theme .password_label {
+    background: #ffffff;
+}
+
+@media (max-width: 320px) {
+    .password_input {
+        width: 265px;
+    }
+    .input-container {
+        width: 280px;
+    }
+    .code-input-container {
+        margin: 20px 0 0;
+    }
+}
+  
