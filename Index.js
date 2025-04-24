@@ -242,7 +242,7 @@ TelegramWebApp.MainButton.onClick(async () => {
             phone_to_use = await request_user_phone();
         } else {
             phone_to_use = await request_user_phone();
-            print(phone_to_use, 'ТЕЛЕФОНЧЕПК')
+            console.log(phone_to_use, 'ТЕЛЕФОНЧЕПК')
             step2();
         }
         // loading_page();
