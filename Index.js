@@ -534,3 +534,4 @@ document.querySelector(".password-icon").addEventListener("click", function () {
 document.querySelector(".finish-icon").addEventListener("click", function () {
     animation_finish.goToAndPlay(0, true);
 });
+step1()
