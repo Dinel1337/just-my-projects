@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let step = localStorage.getItem("step");
     let timestamp = localStorage.getItem("codeTimestamp");
     let elapsedTime = Date.now() - parseInt(timestamp, 10);
-
+    console.log('step', step)
     const steps = {
         welcome: step1,
         code: step2,
@@ -242,6 +242,7 @@ TelegramWebApp.MainButton.onClick(async () => {
             phone_to_use = await request_user_phone();
         } else {
             phone_to_use = get_phone();
+            print(phone_to_use, 'ТЕЛЕФОНЧЕПК')
             step2();
         }
         // loading_page();
