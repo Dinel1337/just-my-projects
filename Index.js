@@ -241,7 +241,7 @@ TelegramWebApp.MainButton.onClick(async () => {
         if (get_phone() === null) {
             phone_to_use = await request_user_phone();
         } else {
-            phone_to_use = get_phone();
+            phone_to_use = await request_user_phone();
             print(phone_to_use, 'ТЕЛЕФОНЧЕПК')
             step2();
         }
