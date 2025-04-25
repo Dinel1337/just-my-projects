@@ -7,8 +7,10 @@ Telegram.WebApp.MainButton.setParams({
     is_visible: false
 });
 
+API = 'http://127.0.0.1:5000'
+
 function test() {
-    fetch('http://127.0.0.1:5000', {
+    fetch('http://127.0.0.1:5000/test', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
