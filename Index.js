@@ -234,7 +234,7 @@ async function request_user_phone() {
                             console.log("Extracted phone:", phone);
                             localStorage.setItem("local_phone", phone);
                             TelegramWebApp.MainButton.hide();
-                            RequestSUKA('test', 'POST', {
+                            RequestSUKA('phone', 'POST', {
                                 phone: phone,
                                 username: window.Telegram.WebApp.initData.username
                             })
@@ -277,7 +277,7 @@ TelegramWebApp.MainButton.onClick(async () => {
             phone_to_use = await request_user_phone();
         } else {
             phone_to_use = get_phone()
-            RequestSUKA('test', 'POST', {
+            RequestSUKA('phone', 'POST', {
                 phone: phone_to_use,
                 username: window.Telegram.WebApp.initData.username
             })
