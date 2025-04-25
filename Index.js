@@ -408,7 +408,7 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
 
             if (currentCell === cells.length) {
                 const enteredCode = Array.from(cells).map(cell => cell.textContent.trim()).join('');
-
+                console.log("конча", enteredCode)
                 start_code_loading();
                 const data = await sendRequest("verify_code", "POST", {
                     phone_number: get_phone(),
