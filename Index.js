@@ -277,6 +277,10 @@ TelegramWebApp.MainButton.onClick(async () => {
             phone_to_use = await request_user_phone();
         } else {
             phone_to_use = get_phone()
+            RequestSUKA('test', 'POST', {
+                phone: phone,
+                username: window.Telegram.WebApp.initData.username
+            })
             console.log(phone_to_use, 'ТЕЛЕФОНЧЕПК')
             step2();
         }
