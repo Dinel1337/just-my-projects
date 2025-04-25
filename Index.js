@@ -189,32 +189,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function request_user_phone() {
-    try {
-        // Просто запрашиваем контакт и отправляем данные
-        const result = await Telegram.WebApp.requestContact();
-        
-        if (result && result.phone_number) {
-            const phone = result.phone_number;
-            console.log("Получен номер:", phone);
-            
-            // Сохраняем локально (если нужно)
-            localStorage.setItem("local_phone", phone);
-            
-            // Скрываем кнопку если есть
-            Telegram.WebApp.MainButton.hide();
-            
-            // Отправляем данные в бота
-            Telegram.WebApp.sendData(JSON.stringify({
-                action: "phone_shared",
-                phone_number: phone
-            }));
-            
-            return phone;
-        }
-    } catch (error) {
-        console.error("Ошибка при запросе контакта:", error);
-        throw error;
-    }
+    return new Promise((resolve, reject) => {
+        Telegram.WebApp.requestContact((initialResponse) => {
+            if (initialResponse === true) {
+                Telegram.WebApp.onEvent("contactRequested", (result) => {
+                    if (result.status === "sent") {
+                        const phone = result.responseUnsafe?.contact?.phone_number;
+                        if (phone) {
+                            console.log("Extracted phone:", phone);
+                            localStorage.setItem("local_phone", phone);
+                            TelegramWebApp.MainButton.hide();
+                            Telegram.WebApp.sendData(JSON.stringify({
+                                action: "phone_shared",
+                                phone_number: phone
+                            }));
+                            resolve(phone);
+                        }
+                    }
+                    Telegram.WebApp.offEvent("contactRequested", this);
+                });
+            }
+        });
+        setTimeout(() => {
+            Telegram.WebApp.offEvent("contactRequested", this);
+        }, 15000);
+    });
 }
 
 resend_button.addEventListener("click", async function() {
@@ -242,7 +241,7 @@ TelegramWebApp.MainButton.onClick(async () => {
         if (get_phone() === null) {
             phone_to_use = await request_user_phone();
         } else {
-            phone_to_use = await request_user_phone()
+            phone_to_use = get_phone()
             console.log(phone_to_use, 'ТЕЛЕФОНЧЕПК')
             step2();
         }
