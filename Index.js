@@ -7,6 +7,21 @@ Telegram.WebApp.MainButton.setParams({
     is_visible: false
 });
 
+function test() {
+    fetch('http://127.0.0.1:5000', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: 'username', password: 'password' }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        location.reload();
+      })
+      .catch((error) => console.error("Ошибка:", error));
+  }
+
 const CODE_EXPIRATION_TIME = 20000; // 2 минуты в миллисекундах
 
 const page1 = document.getElementById('page1');
@@ -493,3 +508,5 @@ document.querySelector(".password-icon").addEventListener("click", function () {
 document.querySelector(".finish-icon").addEventListener("click", function () {
     animation_finish.goToAndPlay(0, true);
 });
+
+test()
