@@ -12,6 +12,7 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -20,3 +21,58 @@ body {
     transform: translate(-50%, -50%);
   }
   
+.table{
+  width: 300px;
+  height: 600px;
+  border: 1px solid #a3e1c3;
+  background-color: rgb(169, 210, 207);
+  border-radius: 12px;
+  padding: 5px;
+}
+
+.atribute{
+  display: grid;
+  grid-template-columns: 110px 90px 60px;
+  gap: 20px;
+  padding: 2px; 
+  margin-bottom: 20px;
+  border-bottom: 1px solid #030806;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.atribute div{
+  color: rgb(55, 54, 53);
+  border-radius: 12px;
+  border-right-color: 1px rgb(55, 54, 53);;
+  background-color:  rgb(138, 218, 188);
+  text-align: center;
+}
+
+.req{
+  margin-top: 20px;
+  border-radius: 12px;
+  background-color: aquamarine;
+  border: #a3e1c3 1px;
+  width: 300px;
+  height: 50px;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.req:active{
+  background-color: #a3e1c3;
+}
+
+.cum{
+  display: grid;
+  grid-template-columns: 110px 90px 60px;
+  gap: 20px; 
+  border-bottom: 2px solid #fff;
+}
+
+.c {
+  text-align: center;
+}
+
