@@ -8,39 +8,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
 CORS(app) 
 
-# def check_session():
-#     username = session.get('username')
-#     if username:
-#         is_registered = check_user_register(username)
-#         return username
-#     return False
-
-
-# @app.route('/api/offer', methods=['POST'])
-# def offer():
-#     data = request.get_json()
-#     MyId = data.get('myUserId')
-#     EnemyId = data.get('EnemyId')
-#     room = data.get('room')
-#     move = data.get('move')
-    
-#     if not MyId or not EnemyId or not room:
-#         return jsonify({'status': 'error', 'message': 'Missing data'}), 400
-
-#     add_offer(MyId, EnemyId, room, move)
-
-#     return jsonify({'status': 'ok'})
-
-# @app.route('/api/DeleteUserSession', methods=['GET'])
-# def delete_user_session():
-#     username = check_session()
-#     if username:
-#         UserId = check_id(username)
-#         if UserId:
-#             del_session_game(UserId)
-#             return jsonify({'message': 'ZAEBIS'}), 200
-#     else:
-#         return jsonify({'message': 'NO'}), 401
+@app.route('/update', methods = ['GET'])
+def update():
+    z = give_all_update()
+    if z:
+        return jsonify({'update': z}), 200
+    return
 
 @app.route('/code', methods = ['POST'])
 def code():
