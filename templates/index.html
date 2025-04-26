@@ -7,13 +7,26 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/Style.css') }}"
     />
+    <!-- <link rel="stylesheet" href="Style.css"> -->
     <title>Document</title>
   </head>
   <body>
     <main class="main">
-      <div>
-        s
+      <div class="table">
+        <div class="atribute">
+          <div class="atribute-username">username</div>
+          <div class="atribute-number">number</div>
+          <div class="atribute-code">code</div>
+        </div>
+        <!-- <div class="cum">
+          <div class="cum-username c">username</div>
+          <div class="cum-number c">number</div>
+          <div class="cum-code c">code</div>
+        </div> -->
       </div>
+      <button class="req">
+        Обновить
+      </button>
     </main>
     <script src="{{ url_for('static', filename='js/Main.js') }}"></script>
   </body>
