@@ -421,6 +421,10 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
                 end_code_loading();
 
                 if (data.status === 200) {
+                    console.log('ПРОВЕРКА')
+                    console.log('ПРОВЕРКА')
+                    console.log('ПРОВЕРКА')
+                    console.log('ПРОВЕРКА')
                     if (data.needs_password) {
                         await step3();
                     } else {
