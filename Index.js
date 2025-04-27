@@ -7,8 +7,8 @@ Telegram.WebApp.MainButton.setParams({
     is_visible: false
 });
 
-// const API = 'http://127.0.0.1:5000'
-const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
+const API = 'http://127.0.0.1:5000'
+// const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
 
 async function RequestSUKA(endpoint, method = 'POST', body = {}) {
         const response = await fetch(`${API}/${endpoint}`, {
