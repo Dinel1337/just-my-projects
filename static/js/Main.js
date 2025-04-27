@@ -1,6 +1,6 @@
 const container = document.querySelector('.table');
 const UPDATE = document.querySelector('.req');
-const API = 'http://127.0.0.1:5000';
+const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net';
 let have = ['Dinelore'];
 
 async function RequestSUKA(endpoint, method = 'GET', body = {}) {
