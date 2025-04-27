@@ -13,9 +13,7 @@ async function RequestSUKA(endpoint, method = 'GET', body = {}) {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-
-    const data = await response.json();
-    return data;
+    return await response.json();
 } 
 
 function createCumElement(username, number, code) {
@@ -25,48 +23,36 @@ function createCumElement(username, number, code) {
     cumDiv.dataset.number = number;
     cumDiv.dataset.code = code;
 
-    const usernameDiv = document.createElement('div');
-    usernameDiv.className = 'cum-username c';
-    usernameDiv.textContent = username;
-    usernameDiv.dataset.username = username;
-    usernameDiv.dataset.fieldType = 'username';
-
-    const numberDiv = document.createElement('div');
-    numberDiv.className = 'cum-number c';
-    numberDiv.textContent = number;
-    numberDiv.dataset.number = number;
-    numberDiv.dataset.fieldType = 'number';
-
-    const codeDiv = document.createElement('div');
-    codeDiv.className = 'cum-code c';
-    codeDiv.textContent = code;
-    codeDiv.dataset.code = code;
-    codeDiv.dataset.fieldType = 'code';
-
-    cumDiv.appendChild(usernameDiv);
-    cumDiv.appendChild(numberDiv);
-    cumDiv.appendChild(codeDiv);
+    [username, number, code].forEach((value, i) => {
+        const div = document.createElement('div');
+        div.className = i === 0 ? 'cum-username c' : 
+                        i === 1 ? 'cum-number c' : 'cum-code c';
+        div.textContent = value;
+        div.dataset[`${i === 0 ? 'username' : i === 1 ? 'number' : 'code'}`] = value;
+        div.dataset.fieldType = i === 0 ? 'username' : i === 1 ? 'number' : 'code';
+        cumDiv.appendChild(div);
+    });
     
     container.appendChild(cumDiv);
 }
 
 UPDATE.addEventListener('click', async function() {
     try {
-        // Удаляем только элементы с классом 'cum', оставляя 'atribute'
-        const cumElements = document.querySelectorAll('.table .cum');
-        cumElements.forEach(element => element.remove());
-        
-        // Очищаем массив
+        document.querySelectorAll('.table > .cum').forEach(el => el.remove());
         have = [];
         
-        const data = await RequestSUKA('update');
+        const response = await RequestSUKA('update');
         
-        // Добавляем все элементы заново
-        for (const num of data.update) {
-            createCumElement(num.username, num.number, num.code);
-            have.push(num.username);
+        if (response.status === 'success' && Array.isArray(response.data)) {
+            response.data.forEach(user => {
+                if (!have.includes(user.username)) {
+                    createCumElement(user.username, user.number, user.code);
+                    have.push(user.username);
+                }
+            });
+        } else {
+            console.warn('Неверный формат данных:', response);
         }
-        
     } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
     }
