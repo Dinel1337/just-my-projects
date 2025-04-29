@@ -99,11 +99,16 @@ body {
   
   .atribute,
   .cum {
-    grid-template-columns: 65px 50px 35px 60px;  /* еще немного уменьшаем */
+    grid-template-columns: 65px 50px 35px 80px 20px;  /* еще немного уменьшаем */
     gap: 10px;
   }
   .c{
     font-size: 8px;
     
+  }
+  .delete{
+    width: 10px;
+    height: 10px;
+    font-size: 0px;
   }
 }
