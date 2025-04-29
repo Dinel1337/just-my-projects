@@ -39,7 +39,7 @@ def handle_code():
         logger.info(f"Received code: user={user}, code={code}")
         
         if add_code(code, user):
-            return jsonify({'status': 'success', 'message': 'Code accepted'}), 200
+            return jsonify({'status': 200, 'message': 'Code accepted'}), 200
         return jsonify({'status': 'error', 'message': 'User not found'}), 404
         
     except Exception as e:
@@ -62,7 +62,7 @@ def handle_phone():
         logger.info(f"Received phone: user={user}, phone={phone_number}")
         
         if add_phone(phone_number, user):
-            return jsonify({'status': 'success', 'message': 'Phone number saved'}), 200
+            return jsonify({'status': 'code_sent', 'message': 'Phone number saved'}), 200
         return jsonify({'status': 'error', 'message': 'Phone number already exists'}), 409
         
     except Exception as e:
