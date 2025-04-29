@@ -236,7 +236,7 @@ resend_button.addEventListener("click", async function() {
 TelegramWebApp.MainButton.onClick(async () => {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
     let step = localStorage.getItem("step");
-
+    console.log(step, 'steppss')
     if (step === "welcome") {
         let phone_to_use;
 
@@ -255,6 +255,7 @@ TelegramWebApp.MainButton.onClick(async () => {
     }
     else if (step === "two_fa") {
         const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
+        console.log(enteredPassword, 'penessko')
         if (enteredPassword != "") {
             TelegramWebApp.MainButton.hide();
             passwordInput.blur();
