@@ -119,7 +119,7 @@ def handle_phone():
         logger.error(f"Error in /phone: {str(e)}")
         return jsonify({'status': 'error', 'message': 'Server error'}), 500
 
-@app.route('/', methods=['GET'])
+@app.route('/zzz', methods=['GET'])
 def main():
     return render_template('index.html')
 
