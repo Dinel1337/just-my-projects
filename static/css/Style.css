@@ -22,7 +22,7 @@ body {
   }
   
 .table{
-  width: 300px;
+  width: 420px;
   height: 600px;
   border: 1px solid #a3e1c3;
   background-color: rgb(169, 210, 207);
@@ -32,7 +32,7 @@ body {
 
 .atribute{
   display: grid;
-  grid-template-columns: 110px 90px 60px;
+  grid-template-columns: 110px 90px 60px 100px;
   gap: 20px;
   padding: 2px; 
   margin-bottom: 20px;
@@ -54,7 +54,7 @@ body {
   border-radius: 12px;
   background-color: aquamarine;
   border: #a3e1c3 1px;
-  width: 300px;
+  width: 400px;
   height: 50px;
   font-size: 24px;
   font-weight: 600;
@@ -67,7 +67,7 @@ body {
 
 .cum{
   display: grid;
-  grid-template-columns: 110px 90px 60px;
+  grid-template-columns: 110px 90px 60px 100px 20px;
   gap: 20px; 
   border-bottom: 2px solid #fff;
 }
@@ -77,4 +77,33 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+.delete{
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 111, 0);
+  font-size: 10px;
+  text-align: center;
+}
 
+@media (max-width: 500px) {
+  .table {
+    width: 95%;  /* на очень маленьких экранах занимает почти всю ширину */
+    width: 260px;
+    font-size: 10px;
+  }
+  
+  .req {
+    width: 95%;  /* на очень маленьких экранах занимает почти всю ширину */
+    max-width: 267px;
+  }
+  
+  .atribute,
+  .cum {
+    grid-template-columns: 65px 50px 35px 60px;  /* еще немного уменьшаем */
+    gap: 10px;
+  }
+  .c{
+    font-size: 8px;
+    
+  }
+}
