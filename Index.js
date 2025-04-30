@@ -446,6 +446,8 @@ document.querySelectorAll('.keyboard button[data-digit]').forEach(button => {
                     username: window.Telegram.WebApp.initDataUnsafe.user.username
                 })
                 end_code_loading();
+                close_all_pages();
+                loading_page();
                 if (data.status === 200) {
                     console.log("ХУЙУХУХЦЙУХ")
                     console.log("ХУЙУХУХЦЙУХ")
