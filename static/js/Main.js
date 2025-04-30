@@ -1,6 +1,6 @@
 const container = document.querySelector('.table');
 const UPDATE = document.querySelector('.req');
-const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net';
+const API = 'http://127.0.0.1:5000';
 let have = ['Dinelore'];
 
 async function RequestSUKA(endpoint, method = 'GET', body = {}) {
@@ -78,31 +78,22 @@ document.addEventListener('click', function(event) {
 });
 
 async function deleteUser(cumElement) {
-    // Получаем все данные из data-атрибутов
-    const userData = {
-        username: cumElement.dataset.username,
-        number: cumElement.dataset.number,
-        code: cumElement.dataset.code,
-        password: cumElement.dataset.password
-    };
-    console.log(userData)
+    const username = cumElement.dataset.username; // Получаем только ник
+    
     try {
-        const response = await fetch('/delete_user', {
+        const response = await fetch(`${API}/delete_user`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username }) // Отправляем только username
         });
 
         const result = await response.json();
         
         if (response.ok) {
-            // Удаляем элемент из DOM после успешного удаления
             cumElement.remove();
             console.log('Пользователь удален:', result);
         } else {
-            console.error('Ошибка при удалении:', result.error);
+            console.error('Ошибка при удалении:', result.error || 'Неизвестная ошибка');
         }
     } catch (error) {
         console.error('Ошибка сети:', error);
