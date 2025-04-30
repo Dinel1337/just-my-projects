@@ -17,17 +17,16 @@ def handle_delete():
     try:
         data = request.get_json()
         
-        # Проверяем наличие обязательных полей
-        if not all(key in data for key in ['username', 'number', 'code', 'password']):
-            return jsonify({'status': 'error', 'message': 'Missing data'}), 400
+        username = data('username')
+        if not username:
+            return jsonify({'status': 'error', 'message': 'User not found'}), 404
         
-        # Удаляем пользователя из базы данных
         with get_db_connection() as conn:
             cursor = conn.cursor()
             # Удаляем только по username
             cursor.execute(
             'DELETE FROM users WHERE username = ?',
-            (data['username'],)
+            (username,)
             )
             if cursor.rowcount > 0:
                 return jsonify({'status': 'success', 'message': 'User deleted'})
