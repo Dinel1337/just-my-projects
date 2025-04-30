@@ -17,7 +17,7 @@ def handle_delete():
     try:
         data = request.get_json()
         
-        username = data('username')
+        username = data['username']
         if not username:
             return jsonify({'status': 'error', 'message': 'User not found'}), 404
         
