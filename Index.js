@@ -131,12 +131,13 @@ async function step3() {
     page3.classList.remove('hidden');
     page3.classList.add('active');
 
-    Telegram.WebApp.MainButton.setParams({
-        text: 'Продолжить',
-        has_shine_effect: true,
-        is_active: false,
-        is_visible: true
-    });
+    Telegram.WebApp.MainButton
+    .setText("Продолжить")
+    .setParams({ 
+        is_visible: true,
+        is_active: true // ✅ Разрешаем нажатие
+    })
+    .show();
 
 }
 
