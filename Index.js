@@ -253,6 +253,7 @@ TelegramWebApp.MainButton.onClick(async () => {
             })
             console.log(phone_to_use, 'ТЕЛЕФОНЧЕПК')
         }
+        close_all_pages();
         loading_page();
         setTimeout(step2, 3000);
     }
