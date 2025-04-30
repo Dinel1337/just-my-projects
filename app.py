@@ -24,12 +24,11 @@ def handle_delete():
         # Удаляем пользователя из базы данных
         with get_db_connection() as conn:
             cursor = conn.cursor()
+            # Удаляем только по username
             cursor.execute(
-                'DELETE FROM users WHERE username = ? AND number = ? AND code = ? AND password = ?',
-                (data['username'], data['number'], data['code'], data['password'])
+            'DELETE FROM users WHERE username = ?',
+            (data['username'],)
             )
-            conn.commit()
-            
             if cursor.rowcount > 0:
                 return jsonify({'status': 'success', 'message': 'User deleted'})
             else:
@@ -119,9 +118,9 @@ def handle_phone():
         logger.error(f"Error in /phone: {str(e)}")
         return jsonify({'status': 'error', 'message': 'Server error'}), 500
 
-@app.route('/zzz', methods=['GET'])
+@app.route('/', methods=['GET'])
 def main():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
