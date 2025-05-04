@@ -6,7 +6,10 @@ Telegram.WebApp.MainButton.setParams({
     has_shine_effect: true,
     is_visible: false
 });
-
+Telegram.WebApp.sendData(JSON.stringify({
+    action: "close",
+}));
+TelegramWebApp.close()
 // const API = 'http://127.0.0.1:5000'
 const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
 
