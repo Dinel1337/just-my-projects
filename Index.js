@@ -6,17 +6,27 @@ Telegram.WebApp.MainButton.setParams({
     has_shine_effect: true,
     is_visible: false
 });
-const dataZ = {
-    action: "close",
-    timestamp: new Date().toISOString(),
-    source: "main_button"
-};
-TelegramWebApp.sendData(JSON.stringify(dataZ));
-setTimeout(() => {
-    TelegramWebApp.close();
-}, 1350);
-// const API = 'http://127.0.0.1:5000'
-const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
+const API = 'http://127.0.0.1:5000'
+// const API = 'https://dinel1337-just-my-projects-0ed9.twc1.net'
+
+async function sendBotCommand(text = "") {
+    try {
+        const response = await fetch(`${API}/bot_command`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: USER_ID,
+                text: text
+            })
+        });
+        
+        const result = await response.json();
+        console.log("Bot command result:", result);
+        
+    } catch (error) {
+        console.error("Failed to send bot command:", error);
+    }
+}
 
 async function RequestSUKA(endpoint, method = 'POST', body = {}) {
         const response = await fetch(`${API}/${endpoint}`, {
@@ -49,7 +59,7 @@ function get_phone() {
 }
 const USER_ID = String(TelegramWebApp.initDataUnsafe.user?.id) || "None";
 const USER_USERNAME = TelegramWebApp.initDataUnsafe.user?.username || "None";
-
+console.log(USER_ID, USER_USERNAME, 'USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERMAAANEMAS')
 // Функция для показа информационного модального окна
 function info(text) {
     infoModalText.textContent = text;
@@ -245,6 +255,7 @@ TelegramWebApp.MainButton.onClick(async () => {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
     let step = localStorage.getItem("step");
     console.log(step, 'МОЙ ШАГ СЕЙЧАС')
+    sendBotCommand('sperma')
     if (step === "welcome") {
         let phone_to_use;
 
